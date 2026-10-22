@@ -1,0 +1,876 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dmitry Mogilevich Portfolio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Portfolio of Dmitry Mogilevich, Senior IT Infrastructure Engineer: Windows, Active Directory, Entra ID, Microsoft 365, Azure, VMware and Citrix.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;112,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a run-book. Hero with a console readout, then case files (problem / approach / outcome), field notes, service record, skills inventory. */
+:root {
+  --paper: #F2F4F7;
+  --card: #FFFFFF;
+  --ink: #15203A;
+  --muted: #586378;
+  --line: #D4DAE3;
+  --navy: #1F3864;
+  --signal: #B86A12;
+  --signal-soft: #F6E7D2;
+  --ok: #2D7A4F;
+  --ok-soft: #DDEFE4;
+  --console: #15203A;
+  --console-fg: #D9E2F0;
+  --console-dim: #8392AD;
+  --chip: #E8ECF2;
+  --f-display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "IBM Plex Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", Consolas, "Courier New", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0F1624; --card: #161F31; --ink: #E3E8F1; --muted: #98A3B8; --line: #26324A;
+    --navy: #9DB8E8; --signal: #E5A04C; --signal-soft: #3A2A16; --ok: #6FC495; --ok-soft: #173326;
+    --console: #0A0F1A; --console-fg: #D9E2F0; --console-dim: #7685A0; --chip: #202B42;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0F1624; --card: #161F31; --ink: #E3E8F1; --muted: #98A3B8; --line: #26324A;
+  --navy: #9DB8E8; --signal: #E5A04C; --signal-soft: #3A2A16; --ok: #6FC495; --ok-soft: #173326;
+  --console: #0A0F1A; --console-fg: #D9E2F0; --console-dim: #7685A0; --chip: #202B42;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  background: var(--paper); color: var(--ink);
+  font-family: var(--f-body); font-size: 16px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 1120px; margin: 0 auto; }
+a { color: var(--navy); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; border-radius: 4px; }
+h1, h2, h3 { font-family: var(--f-display); font-stretch: 112%; text-wrap: balance; margin: 0; line-height: 1.1; }
+h2 { font-size: clamp(1.6rem, 3.2vw, 2.2rem); font-weight: 800; color: var(--navy); }
+h3 { font-size: 1.2rem; font-weight: 600; }
+p { margin: 0; }
+.label { font-family: var(--f-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+
+/* top bar */
+.topbar { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; align-items: center; padding-block: 20px; border-bottom: 1px solid var(--line); }
+.topbar .mark { font-family: var(--f-mono); font-size: 0.85rem; color: var(--muted); }
+.topbar nav { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 0.9rem; }
+.topbar nav a { text-decoration: none; color: var(--ink); }
+.topbar nav a:hover { color: var(--signal); }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 48px; align-items: center; padding-block: 56px 48px; }
+.hero h1 { font-size: clamp(2.6rem, 6.4vw, 4.6rem); font-weight: 800; letter-spacing: -0.01em; }
+.hero .role { margin-top: 14px; font-family: var(--f-display); font-stretch: 112%; font-weight: 600; font-size: 1.15rem; color: var(--navy); }
+.hero .lead { margin-top: 20px; max-width: 58ch; font-size: 1.08rem; }
+.avail { display: inline-flex; align-items: center; gap: 10px; margin-top: 24px; padding: 6px 14px 6px 10px; border-radius: 999px; background: var(--ok-soft); color: var(--ok); font-size: 0.9rem; font-weight: 500; }
+.avail::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 4px color-mix(in srgb, var(--ok) 22%, transparent); }
+.contact { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.contact-item { display: flex; align-items: center; gap: 8px; padding: 8px 8px 8px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); font-size: 0.92rem; min-width: 0; }
+.contact-item span { overflow-wrap: anywhere; }
+.copy { font: 500 0.72rem var(--f-mono); letter-spacing: 0.04em; text-transform: uppercase; border: 1px solid var(--line); background: var(--paper); color: var(--muted); border-radius: 6px; padding: 4px 8px; cursor: pointer; }
+.copy:hover { color: var(--ink); border-color: var(--muted); }
+
+.console { background: var(--console); color: var(--console-fg); border-radius: 10px; padding: 22px 22px 24px; font-family: var(--f-mono); font-size: 0.86rem; line-height: 1.7; overflow-x: auto; min-width: 0; }
+.console .bar { display: flex; gap: 6px; margin-bottom: 16px; }
+.console .bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--console-dim); opacity: 0.5; }
+.console .prompt { color: var(--console-dim); }
+.console .cmd { color: var(--console-fg); }
+.console dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0 14px; margin: 12px 0 0; }
+.console dt { color: var(--console-dim); white-space: nowrap; }
+.console dt::after { content: " :"; }
+.console dd { margin: 0; }
+.console .hl { color: #E9B067; }
+.cursor { display: inline-block; width: 8px; height: 1em; background: var(--console-fg); vertical-align: -2px; animation: blink 1.1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .cursor { animation: none; } }
+
+/* scale strip */
+.scale { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.scale div { padding: 22px 20px; border-left: 1px solid var(--line); }
+.scale div:first-child { border-left: 0; padding-left: 0; }
+.scale strong { display: block; font-family: var(--f-display); font-stretch: 112%; font-weight: 800; font-size: 2rem; color: var(--navy); font-variant-numeric: tabular-nums; line-height: 1.1; }
+.scale span { font-size: 0.88rem; color: var(--muted); }
+
+section { padding-block: 72px 8px; }
+.sec-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 16px 32px; margin-bottom: 28px; }
+.sec-head p { max-width: 60ch; color: var(--muted); }
+
+/* filters */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+.filters button { font: 500 0.85rem var(--f-body); padding: 7px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--ink); cursor: pointer; }
+.filters button[aria-pressed="true"] { background: var(--navy); border-color: var(--navy); color: var(--paper); }
+
+/* project cards */
+.projects { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.case { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 26px; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.case-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.status { font: 500 0.72rem var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 9px; border-radius: 4px; background: var(--ok-soft); color: var(--ok); }
+.status.wip { background: var(--signal-soft); color: var(--signal); }
+.case .summary { color: var(--muted); }
+.pso { display: grid; gap: 12px; padding-top: 14px; border-top: 1px dashed var(--line); }
+.pso div { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 12px; }
+.pso b { font: 500 0.72rem var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--signal); padding-top: 4px; }
+.pso p { font-size: 0.95rem; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+.chips span { font: 400 0.76rem var(--f-mono); padding: 3px 8px; border-radius: 4px; background: var(--chip); color: var(--ink); }
+details { border-top: 1px solid var(--line); padding-top: 12px; }
+summary { cursor: pointer; font-size: 0.88rem; font-weight: 600; color: var(--navy); list-style: none; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "+ "; font-family: var(--f-mono); }
+details[open] summary::before { content: "- "; }
+details ul { margin: 12px 0 0; padding-left: 18px; font-size: 0.92rem; display: grid; gap: 6px; }
+code { font-family: var(--f-mono); font-size: 0.86em; background: var(--chip); padding: 1px 5px; border-radius: 3px; overflow-wrap: anywhere; }
+
+/* library */
+.library { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 40px; }
+.lib-group { min-width: 0; }
+.lib-group h3 { font-family: var(--f-body); font-stretch: 100%; font-size: 1rem; font-weight: 600; color: var(--navy); padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+.lib-group ul { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 7px; font-size: 0.93rem; }
+.lib-group li { padding-left: 16px; position: relative; }
+.lib-group li::before { content: ">"; position: absolute; left: 0; font-family: var(--f-mono); color: var(--signal); font-size: 0.85em; top: 1px; }
+.lib-foot { margin-top: 28px; padding-top: 16px; border-top: 1px dashed var(--line); font-size: 0.92rem; color: var(--muted); max-width: 90ch; }
+.lib-foot .label { display: block; margin-bottom: 4px; }
+
+/* notes */
+.notes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; }
+.note { padding-block: 20px; border-top: 1px solid var(--line); display: grid; gap: 8px; min-width: 0; }
+.note h3 { font-family: var(--f-body); font-stretch: 100%; font-size: 1.02rem; font-weight: 600; }
+.note p { font-size: 0.94rem; color: var(--muted); }
+.note pre { margin: 4px 0 0; padding: 10px 12px; background: var(--console); color: var(--console-fg); border-radius: 6px; font: 0.8rem/1.55 var(--f-mono); overflow-x: auto; }
+
+/* experience */
+.timeline { display: grid; gap: 0; }
+.job { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 28px; padding-block: 26px; border-top: 1px solid var(--line); }
+.job .when { font-family: var(--f-mono); font-size: 0.85rem; color: var(--muted); font-variant-numeric: tabular-nums; padding-top: 3px; }
+.job .org { margin-top: 4px; color: var(--muted); font-size: 0.94rem; }
+.job .scale-tag { display: inline-block; margin-top: 8px; font: 500 0.75rem var(--f-mono); color: var(--navy); }
+.job ul { margin: 12px 0 0; padding-left: 18px; display: grid; gap: 5px; font-size: 0.95rem; max-width: 75ch; }
+
+/* skills */
+.skills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 32px; }
+.skill h3 { font-family: var(--f-body); font-stretch: 100%; font-size: 0.95rem; font-weight: 600; color: var(--navy); margin-bottom: 8px; }
+.skill p { font-size: 0.92rem; color: var(--muted); }
+.creds { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 40px; margin-top: 48px; }
+.cert-list { list-style: none; margin: 14px 0 0; padding: 0; }
+.cert-list li { display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 0.95rem; }
+.cert-list li span:last-child { font-family: var(--f-mono); font-size: 0.82rem; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* footer */
+footer { margin-top: 88px; padding-block: 40px 56px; border-top: 2px solid var(--navy); display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 32px; }
+footer h2 { font-size: 1.8rem; }
+footer .fine { font-size: 0.85rem; color: var(--muted); }
+
+@media (max-width: 860px) {
+  .hero, .creds, footer { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .projects, .notes, .library { grid-template-columns: minmax(0, 1fr); }
+  .skills { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .scale { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .scale div:nth-child(3) { border-left: 0; padding-left: 0; }
+  .scale div:nth-child(n+3) { border-top: 1px solid var(--line); }
+}
+@media (max-width: 560px) {
+  .skills { grid-template-columns: minmax(0, 1fr); }
+  .job { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  .pso div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .case { padding: 20px; }
+  .hero { padding-block: 36px 32px; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="topbar">
+    <span class="mark">dmitry.mogilevich / infrastructure</span>
+    <nav aria-label="Sections">
+      <a href="#projects">Projects</a>
+      <a href="#library">Scripts</a>
+      <a href="#notes">Field notes</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div>
+      <p class="label">Senior IT Infrastructure Engineer</p>
+      <h1>Dmitry Mogilevich</h1>
+      <p class="role">Windows, Identity, Microsoft Cloud &amp; Virtualisation</p>
+      <p class="lead">21 years running enterprise environments from 3,000 to 70,000 users. I keep hybrid Active Directory, Entra ID, Microsoft 365, VMware and Citrix platforms stable, build PowerShell tools that replace manual work, and take the complex incidents through to root cause.</p>
+      <span class="avail">Available for remote B2B contracts across the EU</span>
+      <div class="contact">
+        <div class="contact-item"><span>+351 913 546 416</span><button class="copy" type="button" data-copy="+351 913 546 416">Copy</button></div>
+        <div class="contact-item"><span>dimamogilevich@gmail.com</span><button class="copy" type="button" data-copy="dimamogilevich@gmail.com">Copy</button></div>
+        <div class="contact-item"><a href="https://www.linkedin.com/in/dima-mogilevich" target="_blank" rel="noopener">linkedin.com/in/dima-mogilevich</a></div>
+      </div>
+    </div>
+    <div class="console" role="img" aria-label="Profile summary shown as PowerShell output">
+      <div class="bar" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div><span class="prompt">PS C:\&gt; </span><span class="cmd">Get-EngineerProfile | Format-List</span></div>
+      <dl>
+        <dt>Name</dt><dd>Dmitry Mogilevich</dd>
+        <dt>Role</dt><dd>Senior IT Infrastructure Engineer</dd>
+        <dt>Experience</dt><dd class="hl">21 years</dd>
+        <dt>LargestEnv</dt><dd>70,000 users, 1,000+ servers</dd>
+        <dt>Identity</dt><dd>AD, Entra ID, Conditional Access, SSO/SCIM</dd>
+        <dt>Platforms</dt><dd>Azure, M365, VMware, Citrix, Hyper-V</dd>
+        <dt>Automation</dt><dd>PowerShell, PowerCLI, Graph, Bash</dd>
+        <dt>Location</dt><dd>Braga, Portugal</dd>
+        <dt>Engagement</dt><dd class="hl">Remote B2B contract</dd>
+      </dl>
+      <div style="margin-top:10px"><span class="prompt">PS C:\&gt; </span><span class="cursor" aria-hidden="true"></span></div>
+    </div>
+  </div>
+
+  <div class="scale">
+    <div><strong>21</strong><span>years in enterprise IT</span></div>
+    <div><strong>70,000</strong><span>users in the largest environment</span></div>
+    <div><strong>1,000+</strong><span>servers managed per environment</span></div>
+    <div><strong>5</strong><span>organisations across food, healthcare, finance and software</span></div>
+  </div>
+
+  <section id="projects">
+    <div class="sec-head">
+      <div>
+        <p class="label">Case files</p>
+        <h2>Projects</h2>
+      </div>
+      <p>Work from production environments. Each entry shows the problem, the approach and what changed.</p>
+    </div>
+    <div class="filters" role="group" aria-label="Filter projects">
+      <button type="button" data-filter="all" aria-pressed="true">All</button>
+      <button type="button" data-filter="tools" aria-pressed="false">PowerShell tools</button>
+      <button type="button" data-filter="virt" aria-pressed="false">Virtualisation &amp; VDI</button>
+      <button type="button" data-filter="identity" aria-pressed="false">Identity &amp; security</button>
+      <button type="button" data-filter="cloud" aria-pressed="false">Cloud &amp; endpoint</button>
+    </div>
+
+    <div class="projects">
+
+      <article class="case" data-cat="tools identity">
+        <div class="case-top"><span class="label">PowerShell tool</span><span class="status">Delivered</span></div>
+        <h3>License Audit Console</h3>
+        <p class="summary">A desktop app that shows who actually uses their Microsoft 365 licence, using on-premises and cloud sign-in evidence side by side.</p>
+        <div class="pso">
+          <div><b>Problem</b><p>Licence reviews needed last-logon and activity data for thousands of accounts, pulled by hand from Active Directory, Microsoft 365 usage reports and Entra ID sign-in logs, then merged in Excel.</p></div>
+          <div><b>Approach</b><p>Single-file PowerShell WPF app that queries AD and Microsoft Graph, merges three activity signals per user and caches results locally with a 7-day freshness window.</p></div>
+          <div><b>Outcome</b><p>One console replaces three manual report pulls. Inactive E5 licences come out as a list with evidence attached, ready for reclaim.</p></div>
+        </div>
+        <details>
+          <summary>Technical detail</summary>
+          <ul>
+            <li>Search by AD group or individual user: sAMAccountName, UPN or display name, including non-Latin names.</li>
+            <li>Three checks: AD <code>lastLogonTimestamp</code>, Graph Microsoft 365 app activity, Graph sign-in activity. Optional E5-only filter.</li>
+            <li>JSON caches per source, scan history tab with archive, CSV export of results.</li>
+            <li>Graph sign-in runs in a separate PowerShell process with WAM disabled; Run stays disabled until the connection succeeds.</li>
+            <li>Least-privilege scopes: <code>AuditLog.Read.All</code>, <code>Reports.Read.All</code>, <code>User.Read.All</code>.</li>
+          </ul>
+        </details>
+        <div class="chips"><span>PowerShell 5.1</span><span>WPF / XAML</span><span>Microsoft Graph</span><span>Active Directory</span><span>Entra ID</span></div>
+      </article>
+
+      <article class="case" data-cat="tools identity">
+        <div class="case-top"><span class="label">PowerShell tool</span><span class="status">Delivered</span></div>
+        <h3>NTFS Permission Scanner</h3>
+        <p class="summary">Scans file server shares and produces a self-contained interactive report of who can access what.</p>
+        <div class="pso">
+          <div><b>Problem</b><p>Access reviews on file servers depended on manual folder-by-folder checks. Reports had to open on locked-down admin servers with no internet access.</p></div>
+          <div><b>Approach</b><p>Three parts: a WPF launcher, a scan engine, and a single HTML viewer with the scan data embedded inside it. No external libraries, no web server.</p></div>
+          <div><b>Outcome</b><p>Auditors receive one file they can open anywhere, browse as a folder tree with permissions alongside, and export to Excel in one click.</p></div>
+        </div>
+        <details>
+          <summary>Technical detail</summary>
+          <ul>
+            <li>Split-pane viewer: folder tree on the left, effective ACL entries on the right.</li>
+            <li>Scan JSON is injected into the HTML at build time, because <code>file://</code> pages cannot fetch local files.</li>
+            <li>Excel export writes native SpreadsheetML in the browser: three sheets (Scan Info, Folders, Permissions), no CDN dependencies.</li>
+            <li>Results cached so repeat views do not rescan the share.</li>
+          </ul>
+        </details>
+        <div class="chips"><span>PowerShell</span><span>WPF</span><span>NTFS ACLs</span><span>HTML / JavaScript</span><span>SpreadsheetML</span></div>
+      </article>
+
+      <article class="case" data-cat="tools identity">
+        <div class="case-top"><span class="label">PowerShell tool</span><span class="status">Delivered</span></div>
+        <h3>AD Health Check</h3>
+        <p class="summary">A desktop tool that runs 22 health and security checks against Active Directory and produces a graded report.</p>
+        <div class="pso">
+          <div><b>Problem</b><p>Directory problems such as broken replication, stale accounts, risky delegation or an old krbtgt password stay invisible until they cause an outage or show up in an audit.</p></div>
+          <div><b>Approach</b><p>WinForms tool with checks grouped into six tabs: AD objects, security, infrastructure, policies, configuration and capacity. Each finding gets a severity, details and a recommended fix.</p></div>
+          <div><b>Outcome</b><p>One run gives a prioritised list of what to fix, exported as an HTML report with expandable details or as CSV.</p></div>
+        </div>
+        <details>
+          <summary>Technical detail</summary>
+          <ul>
+            <li>Security: privileged group membership, service accounts with admin rights, unconstrained and user-account Kerberos delegation, AdminSDHolder, krbtgt password age, password never expires, reversible encryption.</li>
+            <li>Infrastructure: replication failures and delay, lingering objects, SYSVOL (DFS-R), FSMO roles, DC services, time sync hierarchy, DNS, DC disk space.</li>
+            <li>Objects and policy: stale and disabled accounts, empty groups, duplicate SPNs, unlinked and disabled GPOs, security event analysis.</li>
+            <li>Capacity and configuration: RID pool status, expiring certificates, AD Recycle Bin state.</li>
+            <li>Adjustable thresholds for inactivity and password age; live progress log while checks run.</li>
+          </ul>
+        </details>
+        <div class="chips"><span>PowerShell</span><span>Active Directory</span><span>Group Policy</span><span>repadmin</span><span>WinForms</span><span>HTML reports</span></div>
+      </article>
+
+      <article class="case" data-cat="tools identity">
+        <div class="case-top"><span class="label">PowerShell tool</span><span class="status">Delivered</span></div>
+        <h3>AD Privileged Account Manager</h3>
+        <p class="summary">Finds accounts left marked as privileged after leaving admin groups, and cleans them up in a controlled three-step flow.</p>
+        <div class="pso">
+          <div><b>Problem</b><p>Accounts that were once in admin groups keep <code>adminCount=1</code> and have permission inheritance disabled by AdminSDHolder. They look privileged in audits and delegated permissions stop applying to them.</p></div>
+          <div><b>Approach</b><p>Pick OUs in a tree, scan for users with <code>adminCount=1</code> and show which of eight built-in privileged groups each still belongs to. Then remediate only the selected accounts.</p></div>
+          <div><b>Outcome</b><p>Leftover admin flags are removed with confirmation at each step, and normal delegation works again for those accounts.</p></div>
+        </div>
+        <details>
+          <summary>Technical detail</summary>
+          <ul>
+            <li>Three tabs: select OU (this OU only or with sub-OUs), scan results, remediation.</li>
+            <li>Remediation actions: clear <code>adminCount</code>, remove from a chosen privileged group, re-enable ACL inheritance.</li>
+            <li>Checks for elevation at start and warns about the impact before any change.</li>
+            <li>Works against any domain entered at startup.</li>
+          </ul>
+        </details>
+        <div class="chips"><span>PowerShell</span><span>Active Directory</span><span>AdminSDHolder</span><span>ACLs</span><span>WinForms</span></div>
+      </article>
+
+      <article class="case" data-cat="tools virt">
+        <div class="case-top"><span class="label">PowerShell tool</span><span class="status">Delivered</span></div>
+        <h3>VMware File Transfer Console</h3>
+        <p class="summary">Moves files between virtual machines in different domains and networks that have no network path to each other.</p>
+        <div class="pso">
+          <div><b>Problem</b><p>VMs sat in separate AD domains, behind separate vCenters, reachable only through the vSphere console. No shares, no RDP, no route from the management server.</p></div>
+          <div><b>Approach</b><p>Transfers ride the vCenter API and VMware Tools channel instead of the guest network: source VM to local staging, then staging to the destination VM.</p></div>
+          <div><b>Outcome</b><p>Files cross isolated networks without new firewall rules or temporary shares, with pre-flight checks and a full transfer log.</p></div>
+        </div>
+        <details>
+          <summary>Technical detail</summary>
+          <ul>
+            <li>PowerCLI <code>Copy-VMGuestFile</code> and <code>Invoke-VMScript</code>; example target <code>vc01.mylabenv.local</code>.</li>
+            <li>Detects the guest OS per VM: modern guests transfer as a zip archive, legacy 2008-era guests file by file.</li>
+            <li>"Check server and path" verifies the VM exists, is powered on, has Tools running and the path exists, then caches guest credentials for the session.</li>
+            <li>Custom WPF credential dialog replaces console prompts that hang GUI apps.</li>
+            <li>Window opens immediately with a loading overlay while PowerCLI loads and prerequisites are checked.</li>
+          </ul>
+        </details>
+        <div class="chips"><span>PowerShell</span><span>PowerCLI</span><span>vSphere API</span><span>VMware Tools</span><span>WPF</span></div>
+      </article>
+
+      <article class="case" data-cat="virt">
+        <div class="case-top"><span class="label">VDI platform</span><span class="status">Delivered</span></div>
+        <h3>Persistent VDI on VMware Horizon</h3>
+        <p class="summary">Windows 11 golden image and full-clone persistent desktop pool, built, debugged and documented end to end.</p>
+        <div class="pso">
+          <div><b>Problem</b><p>A new persistent desktop pool was needed on Windows 11 with modern security, and early builds failed at Sysprep and at domain join.</p></div>
+          <div><b>Approach</b><p>Built a hardened image (EFI, vTPM 2.0, Secure Boot, PVSCSI, VMXNET3), optimised with OSOT, with user settings in DEM and applications through App Volumes.</p></div>
+          <div><b>Outcome</b><p>Pool provisions and joins the domain reliably. A run book with architecture, build steps and a provisioning diagram hands it over to operations.</p></div>
+        </div>
+        <details>
+          <summary>Technical detail</summary>
+          <ul>
+            <li>Image: Windows 11 25H2, Microsoft 365 Apps, Teams and EDR agent preinstalled; workgroup image joined through the vCenter customisation spec.</li>
+            <li>Sysprep failure (<code>c000000d</code>, BCD on EFI VMs) traced to an update enablement package and NVRAM state; fixed with a pre-Sysprep snapshot workflow.</li>
+            <li>Domain-join failures traced to expired credentials on <code>svc-domjoin</code> in Horizon's own Domain Accounts binding, which is separate from the vCenter spec.</li>
+            <li>Computer objects land in <code>OU=VDI-Persistent,OU=Horizon Pools,OU=VDI,DC=mylabenv,DC=local</code>.</li>
+            <li>Endpoint management client kept out of the image and installed after cloning.</li>
+          </ul>
+        </details>
+        <div class="chips"><span>Horizon</span><span>vSphere</span><span>Windows 11</span><span>DEM</span><span>App Volumes</span><span>OSOT</span></div>
+      </article>
+
+      <article class="case" data-cat="identity virt">
+        <div class="case-top"><span class="label">Identity</span><span class="status">Delivered</span></div>
+        <h3>Conditional Access vs. instant clones</h3>
+        <p class="summary">Root cause and remediation options for new VDI desktops being blocked by device-based Conditional Access.</p>
+        <div class="pso">
+          <div><b>Problem</b><p>Freshly provisioned instant-clone desktops were blocked at sign-in. Their device objects did not exist in Entra ID until the next Entra Connect delta sync.</p></div>
+          <div><b>Approach</b><p>Mapped the provisioning and sync timeline, then evaluated three mitigations: a device filter on a hostname prefix, a named-location exclusion, and an automated delta sync trigger.</p></div>
+          <div><b>Outcome</b><p>A scoped exclusion request went to the security team with the risk boundary of each option spelled out, instead of a blanket policy change.</p></div>
+        </div>
+        <div class="chips"><span>Entra ID</span><span>Conditional Access</span><span>Entra Connect</span><span>Horizon</span></div>
+      </article>
+
+      <article class="case" data-cat="cloud identity">
+        <div class="case-top"><span class="label">Cloud logging</span><span class="status">Delivered</span></div>
+        <h3>Power Platform CSP logging</h3>
+        <p class="summary">Content Security Policy violation reporting for Power Apps, collected in Azure and forwarded to the SIEM.</p>
+        <div class="pso">
+          <div><b>Problem</b><p>Turning on CSP enforcement blindly risks breaking business apps. Violation reports had nowhere to go.</p></div>
+          <div><b>Approach</b><p>Dedicated Log Analytics workspace with one shared Data Collection Endpoint and Rule for all environments. CSP runs in report-only mode first.</p></div>
+          <div><b>Outcome</b><p>Violations are visible before enforcement. Design document with cost estimate delivered, and SIEM onboarding requested from the firewall and security team.</p></div>
+        </div>
+        <div class="chips"><span>Power Platform</span><span>Azure Monitor</span><span>Log Analytics</span><span>DCE / DCR</span><span>SIEM</span></div>
+      </article>
+
+      <article class="case" data-cat="cloud">
+        <div class="case-top"><span class="label">Endpoint</span><span class="status">Delivered</span></div>
+        <h3>Offline language pack via Intune</h3>
+        <p class="summary">A production Win32 package that installs a right-to-left language pack and keyboard on devices without Windows Update access.</p>
+        <div class="pso">
+          <div><b>Problem</b><p>Standard language installs call Windows Update, which managed devices could not reach. Keyboard layouts also live in the user context, while Intune installs as SYSTEM.</p></div>
+          <div><b>Approach</b><p>Ship the CAB files inside the package, install with DISM, and bridge from SYSTEM to the signed-in user with a one-time scheduled task that sets the keyboard layout.</p></div>
+          <div><b>Outcome</b><p>Fully offline deployment with reliable detection, ready for wide rollout.</p></div>
+        </div>
+        <div class="chips"><span>Intune</span><span>Win32 apps</span><span>DISM</span><span>PowerShell</span><span>Scheduled tasks</span></div>
+      </article>
+
+      <article class="case" data-cat="identity tools">
+        <div class="case-top"><span class="label">Lab</span><span class="status">Delivered</span></div>
+        <h3>Isolated Active Directory lab</h3>
+        <p class="summary">A disconnected copy of production AD structure for safe proof-of-concept testing of GPOs and changes.</p>
+        <div class="pso">
+          <div><b>Problem</b><p>Changes to Group Policy and OU design had no safe place to be tested against a realistic structure.</p></div>
+          <div><b>Approach</b><p>Six-phase run book: lab build, export, GPO export, offline transfer, rebuild, validation. Isolated ESXi vSwitch with its own DC and DNS.</p></div>
+          <div><b>Outcome</b><p>The lab was built and validated, the proof of concept was tested there, and the proven solution was then applied to production.</p></div>
+        </div>
+        <details>
+          <summary>Technical detail</summary>
+          <ul>
+            <li>Domain <code>mylabenv.local</code>, DC and DNS at <code>192.168.0.1</code>, static addressing in <code>192.168.0.0/24</code>.</li>
+            <li>Single internal vSwitch, no uplink to production.</li>
+            <li>Structure exported with PowerShell to CLIXML so it can move across the air gap.</li>
+            <li>OUs rebuilt parent-first, then users and groups recreated from CLIXML, then GPOs imported and validated.</li>
+          </ul>
+        </details>
+        <div class="chips"><span>Active Directory</span><span>Group Policy</span><span>ESXi</span><span>PowerShell</span></div>
+      </article>
+
+      <article class="case" data-cat="virt cloud">
+        <div class="case-top"><span class="label">VDI migration</span><span class="status">Delivered</span></div>
+        <h3>Citrix profile migration to Azure Files</h3>
+        <p class="summary">Moved user folders from two generations of on-premises Citrix file servers to Azure Files, with permissions and reporting handled by the script.</p>
+        <div class="pso">
+          <div><b>Problem</b><p>Users sat on two older Citrix environments with folder redirection on separate file servers. The move to a new Azure-hosted environment meant copying each user's Desktop, Documents and Downloads without losing data or access rights.</p></div>
+          <div><b>Approach</b><p>PowerShell works out each user's source environment from AD group membership, copies with Robocopy to Azure Files, resets ownership and NTFS rights, and runs users in parallel as background jobs.</p></div>
+          <div><b>Outcome</b><p>Batch migration with a log per user and an emailed report to the service desk after every run.</p></div>
+        </div>
+        <details>
+          <summary>Technical detail</summary>
+          <ul>
+            <li>Single-user GUI version for the service desk and a multi-user batch version for waves.</li>
+            <li>Browser bookmarks and Outlook signatures collected from all session hosts before cut-over.</li>
+            <li>Outlook OST cache moved to an Azure Files share through per-user symbolic links.</li>
+            <li>Profiles converted to profile containers with the Citrix Profile Management migration tool.</li>
+            <li>Clean-up: folders of users disabled in AD for 30+ days renamed and reported; size and orphan reports; logon script waits for the profile container lock file.</li>
+          </ul>
+        </details>
+        <div class="chips"><span>PowerShell</span><span>Robocopy</span><span>Azure Files</span><span>Citrix UPM</span><span>NTFS</span></div>
+      </article>
+
+      <article class="case" data-cat="identity tools">
+        <div class="case-top"><span class="label">Identity</span><span class="status">Delivered</span></div>
+        <h3>Temporary travel access</h3>
+        <p class="summary">A small GUI that lets one user sign in from chosen countries for a set period, without touching the main location policy.</p>
+        <div class="pso">
+          <div><b>Problem</b><p>Staff travelling abroad were blocked by location-based Conditional Access. Each exception was built by hand in the portal and often stayed after the trip.</p></div>
+          <div><b>Approach</b><p>The admin enters the user, picks countries from a list built from Microsoft Graph and picks an end date. The script creates a country named location and a dedicated policy through the Graph API, numbered automatically in the tenant's naming scheme.</p></div>
+          <div><b>Outcome</b><p>Exceptions are scoped to one user, named the same way every time, and removed automatically on the end date by an Azure Automation runbook.</p></div>
+        </div>
+        <div class="chips"><span>Microsoft Graph</span><span>Conditional Access</span><span>Named locations</span><span>PowerShell</span></div>
+      </article>
+
+      <article class="case" data-cat="identity">
+        <div class="case-top"><span class="label">Security</span><span class="status">Delivered</span></div>
+        <h3>EDR migration and agent compliance</h3>
+        <p class="summary">Replaced SentinelOne with CrowdStrike Falcon across Windows endpoints and kept the other management agents healthy.</p>
+        <div class="pso">
+          <div><b>Problem</b><p>A change of EDR vendor across the estate had to happen without leaving machines unprotected or running two agents at once.</p></div>
+          <div><b>Approach</b><p>One script per machine detects both agents, removes SentinelOne, stages the Falcon installer locally, verifies its hash, installs silently and emails an HTML status report.</p></div>
+          <div><b>Outcome</b><p>Every machine reports its own state, so gaps show up straight away instead of during an incident.</p></div>
+        </div>
+        <details>
+          <summary>Technical detail</summary>
+          <ul>
+            <li>Domain-wide sweep finds Windows machines missing a required agent service and mails the list.</li>
+            <li>BigFix client check reinstalls the agent when its relay setting is wrong.</li>
+            <li>Service desk agent installed where missing; Windows Update component reset for broken clients.</li>
+          </ul>
+        </details>
+        <div class="chips"><span>CrowdStrike Falcon</span><span>SentinelOne</span><span>BigFix</span><span>Group Policy</span><span>PowerShell</span></div>
+      </article>
+
+      <article class="case" data-cat="virt tools">
+        <div class="case-top"><span class="label">VDI operations</span><span class="status">Delivered</span></div>
+        <h3>Citrix Cloud health reporting</h3>
+        <p class="summary">Scheduled HTML reports on Citrix sites, delivery groups and session hosts, plus the day-to-day provisioning scripts behind them.</p>
+        <div class="pso">
+          <div><b>Problem</b><p>Several Citrix sites had to be checked console by console, and failed or overloaded servers were often reported by users first.</p></div>
+          <div><b>Approach</b><p>PowerShell with the Citrix SDK collects site and delivery group status, lists unregistered, failed and fully loaded servers, and builds a styled HTML report sent by email.</p></div>
+          <div><b>Outcome</b><p>The team starts the day with one report instead of several consoles.</p></div>
+        </div>
+        <details>
+          <summary>Technical detail</summary>
+          <ul>
+            <li>Idle-time report: server hours with no user sessions over the last week, used to right-size capacity.</li>
+            <li>OST file audit across session hosts per environment.</li>
+            <li>MCS catalog creation and machine add with provisioning task tracking; identity pool clean-up.</li>
+            <li>Published applications to delivery group export; Group Policy refresh across every registered host in a group.</li>
+          </ul>
+        </details>
+        <div class="chips"><span>Citrix Cloud</span><span>Citrix SDK</span><span>MCS</span><span>PowerShell</span><span>HTML reports</span></div>
+      </article>
+
+      <article class="case" data-cat="cloud tools">
+        <div class="case-top"><span class="label">Cloud cost</span><span class="status">Delivered</span></div>
+        <h3>Azure VM power scheduling</h3>
+        <p class="summary">Start and stop schedules and a support menu for Azure VMs across three group companies.</p>
+        <div class="pso">
+          <div><b>Problem</b><p>Test and secondary servers ran around the clock in Azure, and starting one on request needed portal rights the requester did not have.</p></div>
+          <div><b>Approach</b><p>Service principal sign-in with the secret stored encrypted rather than in the script. Scheduled tasks start and stop VMs at set hours, and a menu lets support pick company, server and action.</p></div>
+          <div><b>Outcome</b><p>Non-production VMs run only in working hours, and support can power them on without portal access.</p></div>
+        </div>
+        <details>
+          <summary>Technical detail</summary>
+          <ul>
+            <li>VM disk inventory per subscription exported to CSV.</li>
+            <li>VM restore from snapshot by swapping the OS disk.</li>
+            <li>Azure Files handle check that shows which client holds a locked profile container.</li>
+          </ul>
+        </details>
+        <div class="chips"><span>Azure</span><span>Az PowerShell</span><span>Service principal</span><span>Task Scheduler</span><span>WinForms</span></div>
+      </article>
+
+      <article class="case" data-cat="cloud virt">
+        <div class="case-top"><span class="label">Endpoint</span><span class="status">Delivered</span></div>
+        <h3>Citrix Workspace client deployment</h3>
+        <p class="summary">A self-service installer menu and a startup deployment that keep the Citrix client on the right build and settings.</p>
+        <div class="pso">
+          <div><b>Problem</b><p>Internal, external and VDI users needed different client settings, and manual installs left old versions and broken single sign-on.</p></div>
+          <div><b>Approach</b><p>A menu in the users' own language offers install, remove, version check and desktop shortcut, using silent install profiles with SSON. A startup script installs or upgrades the client and logs the result per machine.</p></div>
+          <div><b>Outcome</b><p>The right build installs in one click, and each machine keeps a record of what happened.</p></div>
+        </div>
+        <div class="chips"><span>Citrix Workspace</span><span>Group Policy</span><span>WinForms</span><span>PowerShell</span></div>
+      </article>
+
+      <article class="case" data-cat="tools cloud">
+        <div class="case-top"><span class="label">PowerShell tool</span><span class="status">Delivered</span></div>
+        <h3>Printer Management Tool</h3>
+        <p class="summary">A print server console for the service desk: install, reconfigure and remove printers without remote desktop access to the server.</p>
+        <div class="pso">
+          <div><b>Problem</b><p>Printer changes needed an administrator logged on to the print server, and names, ports and drivers were set differently by each person.</p></div>
+          <div><b>Approach</b><p>WinForms tool that validates the user's credentials and admin rights on the chosen print server, then offers install and change tabs that enforce one naming convention.</p></div>
+          <div><b>Outcome</b><p>Printer work is done the same way every time from one window, and only by people with rights on that server.</p></div>
+        </div>
+        <details>
+          <summary>Technical detail</summary>
+          <ul>
+            <li>Install tab: new printer with naming convention, TCP/IP port and driver; add drivers by reading the model list straight from the INF file.</li>
+            <li>Change tab: switch driver or port (new port created if missing), rename or delete a printer, open printer properties.</li>
+            <li>Companion logon script maps printers for users from an Excel sheet of rules by subnet or user name, with a log.</li>
+            <li>Location-based install menu for end users.</li>
+          </ul>
+        </details>
+        <div class="chips"><span>PowerShell</span><span>Print Management</span><span>INF parsing</span><span>ImportExcel</span><span>WinForms</span></div>
+      </article>
+
+      <article class="case" data-cat="cloud identity">
+        <div class="case-top"><span class="label">Messaging</span><span class="status">Delivered</span></div>
+        <h3>Outlook signatures from Active Directory</h3>
+        <p class="summary">Standard email signatures for six business units, built from directory data at logon.</p>
+        <div class="pso">
+          <div><b>Problem</b><p>Signatures were edited by hand, so names, titles and phone numbers drifted out of date and branding differed by unit.</p></div>
+          <div><b>Approach</b><p>A logon script reads name, title, email and phone numbers from AD, fills the unit's template, drops empty phone lines and sets the signature as default for new and reply messages.</p></div>
+          <div><b>Outcome</b><p>Every user gets a current, branded signature. Templates are versioned, so a design change rolls out at next logon.</p></div>
+        </div>
+        <div class="chips"><span>PowerShell</span><span>Active Directory</span><span>Outlook</span><span>Registry</span></div>
+      </article>
+
+    </div>
+  </section>
+
+  <section id="notes">
+    <div class="sec-head">
+      <div>
+        <p class="label">Lessons from the console</p>
+        <h2>Field notes</h2>
+      </div>
+      <p>Short fixes that cost hours the first time. Collected while building the tools above.</p>
+    </div>
+    <div class="notes">
+      <div class="note">
+        <h3>Save .ps1 files as UTF-8 with BOM</h3>
+        <p>Windows PowerShell 5.1 reads a BOM-less file as ANSI and mangles any non-ASCII character. Keep scripts plain ASCII and save with BOM.</p>
+      </div>
+      <div class="note">
+        <h3>Console prompts freeze WPF tools</h3>
+        <p><code>Get-Credential</code> and <code>$Host.UI.PromptForCredential</code> are console-bound. Launched with "Run with PowerShell", a GUI tool can hang on them. Build a WPF credential dialog instead.</p>
+      </div>
+      <div class="note">
+        <h3>Silence PowerCLI first-run prompts once</h3>
+        <p>The CEIP and multi-server prompts are interactive. Set them at startup, once, so a button click never triggers them.</p>
+        <pre>Set-PowerCLIConfiguration -Scope User `
+  -ParticipateInCEIP $false `
+  -DefaultVIServerMode Single -Confirm:$false</pre>
+      </div>
+      <div class="note">
+        <h3>Connect-VIServer wants a bare hostname</h3>
+        <p>A pasted <code>https://vc01.mylabenv.local/</code> fails. Strip the scheme and trailing slash before connecting.</p>
+      </div>
+      <div class="note">
+        <h3>file:// pages cannot fetch local JSON</h3>
+        <p>Browsers block it. Embed the data in a script tag inside the HTML when the report is generated.</p>
+      </div>
+      <div class="note">
+        <h3>Use .Replace(), not -replace, to inject content</h3>
+        <p><code>-replace</code> is regex, so a <code>$</code> in the injected text becomes a back-reference. The string method is literal.</p>
+        <pre>$html = $template.Replace('/*DATA*/', $json)</pre>
+      </div>
+      <div class="note">
+        <h3>Excel export with zero libraries</h3>
+        <p>For offline tools, write SpreadsheetML XML in the browser and save it through a Blob. Excel opens it natively, with multiple sheets.</p>
+      </div>
+      <div class="note">
+        <h3>Declare before the first synchronous trigger</h3>
+        <p>When data is embedded, the render chain can fire during page load. Any <code>const</code> or <code>let</code> it touches must be declared above that point.</p>
+      </div>
+      <div class="note">
+        <h3>RSAT offline on Windows 11 24H2</h3>
+        <p>When <code>Add-WindowsCapability</code> fails offline, install the CAB from the Features on Demand ISO directly.</p>
+        <pre>DISM /Online /Add-Package /PackagePath:&lt;FoD&gt;\&lt;rsat-cab&gt;</pre>
+      </div>
+      <div class="note">
+        <h3>Get-Credential in 5.1 has no -Title</h3>
+        <p>Only <code>-Message</code> is supported in Windows PowerShell 5.1. Scripts written for PowerShell 7 break on it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="library">
+    <div class="sec-head">
+      <div>
+        <p class="label">Everyday automation</p>
+        <h2>Script library</h2>
+      </div>
+      <p>Smaller scripts from daily operations. Each one replaced a manual check or a repeated click-through.</p>
+    </div>
+    <div class="library">
+      <div class="lib-group">
+        <h3>Active Directory</h3>
+        <ul>
+          <li>Inactive accounts: AD last logon matched with Entra ID sign-ins over 90 days</li>
+          <li>Disabled users that still hold group memberships</li>
+          <li>Export of every GPO and discovery of all UNC paths they reference</li>
+          <li>Users with roaming or RDS profile paths still set</li>
+          <li>Forced replication across all domain controllers</li>
+          <li>Computer list check: reachable on the network and enabled in AD</li>
+        </ul>
+      </div>
+      <div class="lib-group">
+        <h3>Microsoft 365 &amp; Exchange</h3>
+        <ul>
+          <li>Mailbox size and last activity, Exchange Online and on-premises</li>
+          <li>Calendar delegation, including localised calendar folder names</li>
+          <li>AD group membership synced into a distribution list</li>
+          <li>Licence removal by SKU for a user</li>
+          <li>SMTP relay test through Microsoft 365</li>
+          <li>Office first-run tips suppressed for VDI users</li>
+        </ul>
+      </div>
+      <div class="lib-group">
+        <h3>Files &amp; storage</h3>
+        <ul>
+          <li>Folder comparison between two shares</li>
+          <li>Folder size reports for profile shares</li>
+          <li>Profile folders checked against AD status, with clean-up of disabled users</li>
+          <li>Recursive ownership and full-control repair per user folder</li>
+          <li>Large file report and removal by list</li>
+        </ul>
+      </div>
+      <div class="lib-group">
+        <h3>Windows</h3>
+        <ul>
+          <li>Windows 11 Start menu and taskbar layout reset</li>
+          <li>Windows Update component reset</li>
+          <li>Log off all sessions on a host</li>
+          <li>Restart of stopped application services</li>
+          <li>Backup of the script library to text with name and path headers</li>
+        </ul>
+      </div>
+    </div>
+    <p class="lib-foot"><span class="label">Vendor and community tools I run and adapt</span> Citrix Profile Management migration tool, PVS device creation from vSphere templates, ControlUp logon duration analysis, ScriptRunner print permission scripts, PS2EXE for packaging scripts as executables.</p>
+  </section>
+
+  <section id="experience">
+    <div class="sec-head">
+      <div>
+        <p class="label">Service record</p>
+        <h2>Experience</h2>
+      </div>
+      <p>Employers are described by sector. Names are available on request and on LinkedIn.</p>
+    </div>
+    <div class="timeline">
+      <div class="job">
+        <div class="when">Mar 2026 – Aug 2026</div>
+        <div>
+          <h3>Senior IT Infrastructure Engineer</h3>
+          <p class="org">National food manufacturer with production and logistics sites nationwide</p>
+          <span class="scale-tag">12,000 users · 1,000+ servers</span>
+          <ul>
+            <li>VMware Horizon persistent and instant-clone VDI, golden images, DEM and App Volumes.</li>
+            <li>Power Platform and Copilot governance, CSP logging in Azure Log Analytics.</li>
+            <li>Exchange Online, Entra ID and Conditional Access, Palo Alto, Commvault, ServiceNow.</li>
+            <li>PowerShell and Bash automation and tools that cut time and manual process.</li>
+            <li>Troubleshooter for complex cross-platform issues; worked with teams and suppliers abroad.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="job">
+        <div class="when">2022 – Mar 2026</div>
+        <div>
+          <h3>Senior IT Infrastructure Specialist</h3>
+          <p class="org">Publicly traded holding group in healthcare, nursing and HR services</p>
+          <span class="scale-tag">3,000 users · 300+ servers</span>
+          <ul>
+            <li>OS, application and patch deployment with SCCM, BigFix and Intune.</li>
+            <li>Citrix DaaS and Hyper-V; F5 load balancing.</li>
+            <li>SAML SSO and SCIM provisioning through Entra ID Enterprise Applications; MFA and RBAC.</li>
+            <li>Exchange on-premises and Exchange Online; CrowdStrike Falcon EDR and Identity Protection.</li>
+            <li>Escalation point for critical incidents with root cause analysis.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="job">
+        <div class="when">2020 – 2022</div>
+        <div>
+          <h3>Infrastructure Engineer / Citrix Administrator</h3>
+          <p class="org">National healthcare provider with clinics and hospitals nationwide</p>
+          <span class="scale-tag">70,000 users · 1,000+ servers</span>
+          <ul>
+            <li>Always-on, large-scale environment with Citrix DaaS, NetScaler ADC and F5.</li>
+            <li>Critical incident handling and root cause analysis; SCOM monitoring.</li>
+            <li>Application integration with development teams in the country and abroad.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="job">
+        <div class="when">2016 – 2020</div>
+        <div>
+          <h3>Infrastructure Engineer</h3>
+          <p class="org">Publicly traded investment house and brokerage</p>
+          <ul>
+            <li>Web and SQL Server platforms, NetApp and Infinidat enterprise storage, F5.</li>
+            <li>System hardening, scalability and performance tuning, SolarWinds monitoring.</li>
+            <li>Automated deployments, updates and patching with PowerShell and Bash.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="job">
+        <div class="when">2014 – 2016</div>
+        <div>
+          <h3>Infrastructure &amp; Systems Engineer</h3>
+          <p class="org">R&amp;D centre of a global software vendor</p>
+          <ul>
+            <li>Enterprise IT across Windows, macOS and Linux.</li>
+            <li>Alpha and beta software testing, hardware compatibility validation with product groups.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="sec-head">
+      <div>
+        <p class="label">Inventory</p>
+        <h2>Skills</h2>
+      </div>
+    </div>
+    <div class="skills">
+      <div class="skill"><h3>Identity &amp; Access</h3><p>Active Directory, Group Policy, Entra ID, Entra Connect, Conditional Access, MFA, RBAC, SAML SSO, SCIM provisioning</p></div>
+      <div class="skill"><h3>Microsoft Cloud</h3><p>Azure, Microsoft 365, Exchange Online and on-premises, Power Platform governance, Azure Monitor and Log Analytics</p></div>
+      <div class="skill"><h3>Virtualisation &amp; VDI</h3><p>VMware vSphere and ESXi, Horizon, App Volumes, DEM, Citrix DaaS, Hyper-V</p></div>
+      <div class="skill"><h3>Endpoint Management</h3><p>Intune, SCCM, BigFix, Win32 app packaging, Windows 10 and 11 imaging, macOS support</p></div>
+      <div class="skill"><h3>Security</h3><p>CrowdStrike Falcon EDR and Identity Protection, Cortex EDR, Palo Alto, system hardening, CSP</p></div>
+      <div class="skill"><h3>Networking &amp; Delivery</h3><p>F5 load balancers (about 7 years), Citrix NetScaler ADC, DNS, DHCP</p></div>
+      <div class="skill"><h3>Automation</h3><p>PowerShell, PowerCLI, Microsoft Graph, WPF tooling, Bash</p></div>
+      <div class="skill"><h3>Backup &amp; Storage</h3><p>Commvault, NetApp, Infinidat, disaster recovery planning</p></div>
+      <div class="skill"><h3>Operations</h3><p>ServiceNow and ITSM processes, SCOM, SolarWinds, Windows Server, SQL Server, Linux configuration and support</p></div>
+    </div>
+
+    <div class="creds">
+      <div>
+        <p class="label">Certifications</p>
+        <ul class="cert-list">
+          <li><span>Microsoft Certified: Azure Solutions Architect Expert</span><span>2022</span></li>
+          <li><span>Cyber Security &amp; Ethical Hacking, HackerU</span><span>2024–2025</span></li>
+          <li><span>Citrix Certified Administrator, Virtualisation</span><span>2019–2020</span></li>
+          <li><span>SQL Server Administration</span><span>2016</span></li>
+          <li><span>VMware Certified Professional, Virtualisation</span><span>2014</span></li>
+          <li><span>Microsoft Certified Solutions Associate (MCSA)</span><span>2012–2013</span></li>
+          <li><span>Cisco CCNA</span><span>2012–2013</span></li>
+        </ul>
+      </div>
+      <div>
+        <p class="label">Languages</p>
+        <ul class="cert-list">
+          <li><span>English</span><span>Fluent</span></li>
+          <li><span>Russian</span><span>Native</span></li>
+          <li><span>Hebrew</span><span>Native</span></li>
+          <li><span>Ukrainian</span><span>Intermediate</span></li>
+          <li><span>Portuguese</span><span>Learning</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div>
+      <p class="label">Contact</p>
+      <h2>Looking for a senior infrastructure engineer on contract?</h2>
+      <p style="margin-top:14px; max-width:52ch">Remote B2B engagements across the EU, invoiced through my registered business. Based in Braga, Portugal, able to travel within Schengen.</p>
+    </div>
+    <div style="display:grid; gap:10px; align-content:start">
+      <div class="contact-item"><span>+351 913 546 416</span><button class="copy" type="button" data-copy="+351 913 546 416">Copy</button></div>
+      <div class="contact-item"><span>dimamogilevich@gmail.com</span><button class="copy" type="button" data-copy="dimamogilevich@gmail.com">Copy</button></div>
+      <div class="contact-item"><a href="https://www.linkedin.com/in/dima-mogilevich" target="_blank" rel="noopener">linkedin.com/in/dima-mogilevich</a></div>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var buttons = document.querySelectorAll('.filters button');
+  var cards = document.querySelectorAll('.case');
+  buttons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var f = btn.getAttribute('data-filter');
+      buttons.forEach(function (b) { b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+      cards.forEach(function (c) {
+        var cats = (c.getAttribute('data-cat') || '').split(' ');
+        c.hidden = !(f === 'all' || cats.indexOf(f) !== -1);
+      });
+    });
+  });
+  document.querySelectorAll('.copy').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var text = btn.getAttribute('data-copy');
+      var done = function () { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy'; }, 1600); };
+      var fallback = function () {
+        var span = btn.previousElementSibling;
+        var r = document.createRange(); r.selectNodeContents(span);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+        btn.textContent = 'Selected';
+        setTimeout(function () { btn.textContent = 'Copy'; }, 1600);
+      };
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done, fallback);
+        } else { fallback(); }
+      } catch (e) { fallback(); }
+    });
+  });
+})();
+</script>
+</body>
+</html>
