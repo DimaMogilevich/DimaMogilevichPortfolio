@@ -62,7 +62,7 @@ p { margin: 0; }
 .label { font-family: var(--f-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
 
 /* top bar */
-.topbar { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; align-items: center; padding-block: 20px; border-bottom: 1px solid var(--line); }
+.topbar { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: flex-end; align-items: center; padding-block: 20px; border-bottom: 1px solid var(--line); }
 .topbar .mark { font-family: var(--f-mono); font-size: 0.85rem; color: var(--muted); }
 .topbar nav { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 0.9rem; }
 .topbar nav a { text-decoration: none; color: var(--ink); }
@@ -232,7 +232,6 @@ footer .fine { font-size: 0.85rem; color: var(--muted); }
 
 <div class="wrap" id="top">
   <header class="topbar">
-    <span class="mark">dmitry.mogilevich / infrastructure</span>
     <nav aria-label="Sections">
       <a href="#projects">Projects</a>
       <a href="#library">Scripts</a>
@@ -245,7 +244,7 @@ footer .fine { font-size: 0.85rem; color: var(--muted); }
 
   <div class="hero">
     <h1>Dmitry Mogilevich</h1>
-    <p class="role">Senior IT Infrastructure Engineer &mdash; Windows, Identity, Microsoft Cloud &amp; Virtualisation</p>
+    <p class="role">Senior IT Infrastructure Engineer</p>
     <p class="contact-line">
       <span>Portugal</span><span class="sep" aria-hidden="true">|</span>
       <span>+351 913 546 416</span><span class="sep" aria-hidden="true">|</span>
@@ -272,7 +271,7 @@ footer .fine { font-size: 0.85rem; color: var(--muted); }
         <p class="label">Case files</p>
         <h2>Projects</h2>
       </div>
-      <p>Work from production environments. Each entry shows the problem, the approach and what changed.</p>
+      <p>A selection of work from production environments. Each entry shows what changed; open it for the problem, the approach and the detail.</p>
     </div>
     <div class="filters" role="group" aria-label="Filter projects">
       <button type="button" data-filter="all" aria-pressed="true">All</button>
@@ -433,18 +432,22 @@ footer .fine { font-size: 0.85rem; color: var(--muted); }
       </article>
 
       <article class="case" data-cat="cloud">
-        <div class="case-top"><span class="label">Endpoint</span><span class="status">Delivered</span></div>
-        <h3>Offline language pack via Intune</h3>
-        <p class="summary">A production Win32 package that installs a right-to-left language pack and keyboard on devices without Windows Update access.</p>
-        <p class="outcome"><b>Outcome</b> Fully offline deployment with reliable detection, ready for wide rollout.</p>
+        <div class="case-top"><span class="label">Endpoint management</span><span class="status">Delivered</span></div>
+        <h3>Cross-platform deployment with Intune</h3>
+        <p class="summary">Applications, configuration and compliance delivered through Microsoft Intune to Windows, macOS and tablet devices.</p>
+        <p class="outcome"><b>Outcome</b> One management plane for every device type, with silent installs, enforced settings and a clear compliance picture before access is granted.</p>
         <details>
-          <summary>Problem and approach</summary>
+          <summary>Problem, approach and detail</summary>
           <ul>
-            <li class="pa"><b>Problem</b> Standard language installs call Windows Update, which managed devices could not reach. Keyboard layouts also live in the user context, while Intune installs as SYSTEM.</li>
-            <li class="pa"><b>Approach</b> Ship the CAB files inside the package, install with DISM, and bridge from SYSTEM to the signed-in user with a one-time scheduled task that sets the keyboard layout.</li>
+            <li class="pa"><b>Problem</b> Software and settings were delivered differently per platform, which left gaps in configuration, patching and compliance across a mixed estate.</li>
+            <li class="pa"><b>Approach</b> Standardised packaging and assignment in Intune per platform, with configuration and compliance policies tied to Conditional Access.</li>
+            <li>Windows: Win32 app packaging with detection rules, configuration profiles, update rings and PowerShell remediation scripts.</li>
+            <li>macOS: app deployment and configuration profiles.</li>
+            <li>Tablets: app deployment, configuration and compliance policies for mobile devices.</li>
+            <li>Example of complex packaging: offline right-to-left language pack and keyboard layout, installed without Windows Update and bridged from SYSTEM to the user context.</li>
           </ul>
         </details>
-        <div class="chips"><span>Intune</span><span>Win32 apps</span><span>DISM</span><span>PowerShell</span><span>Scheduled tasks</span></div>
+        <div class="chips"><span>Intune</span><span>Win32 apps</span><span>macOS</span><span>iOS / Android</span><span>Compliance policies</span><span>Conditional Access</span></div>
       </article>
 
       <article class="case" data-cat="identity tools">
@@ -633,10 +636,6 @@ footer .fine { font-size: 0.85rem; color: var(--muted); }
   -DefaultVIServerMode Single -Confirm:$false</pre>
       </div>
       <div class="note">
-        <h3>Connect-VIServer wants a bare hostname</h3>
-        <p>A pasted <code>https://vc01.mylabenv.local/</code> fails. Strip the scheme and trailing slash before connecting.</p>
-      </div>
-      <div class="note extra" hidden>
         <h3>file:// pages cannot fetch local JSON</h3>
         <p>Browsers block it. Embed the data in a script tag inside the HTML when the report is generated.</p>
       </div>
@@ -654,16 +653,11 @@ footer .fine { font-size: 0.85rem; color: var(--muted); }
         <p>When data is embedded, the render chain can fire during page load. Any <code>const</code> or <code>let</code> it touches must be declared above that point.</p>
       </div>
       <div class="note extra" hidden>
-        <h3>RSAT offline on Windows 11 24H2</h3>
-        <p>When <code>Add-WindowsCapability</code> fails offline, install the CAB from the Features on Demand ISO directly.</p>
-        <pre>DISM /Online /Add-Package /PackagePath:&lt;FoD&gt;\&lt;rsat-cab&gt;</pre>
-      </div>
-      <div class="note extra" hidden>
         <h3>Get-Credential in 5.1 has no -Title</h3>
         <p>Only <code>-Message</code> is supported in Windows PowerShell 5.1. Scripts written for PowerShell 7 break on it.</p>
       </div>
     </div>
-    <button type="button" class="more-btn" id="notes-more" aria-expanded="false">Show all 10 field notes</button>
+    <button type="button" class="more-btn" id="notes-more" aria-expanded="false">Show all 8 field notes</button>
   </section>
 
   <section id="library">
@@ -672,7 +666,7 @@ footer .fine { font-size: 0.85rem; color: var(--muted); }
         <p class="label">Everyday automation</p>
         <h2>Script library</h2>
       </div>
-      <p>Smaller scripts from daily operations. Each one replaced a manual check or a repeated click-through.</p>
+      <p>A selection from a much larger collection of scripts written for daily operations. Each one replaced a manual check or a repeated click-through.</p>
     </div>
     <div class="library">
       <div class="lib-group">
@@ -718,7 +712,7 @@ footer .fine { font-size: 0.85rem; color: var(--muted); }
         </ul>
       </div>
     </div>
-    <p class="lib-foot"><span class="label">Vendor and community tools I run and adapt</span> Citrix Profile Management migration tool, PVS device creation from vSphere templates, ControlUp logon duration analysis, ScriptRunner print permission scripts, PS2EXE for packaging scripts as executables.</p>
+    <p class="lib-foot"><span class="label">Vendor and community tooling</span> Alongside my own scripts I regularly use, adapt and extend a wide range of vendor and community tools, for example the Citrix Profile Management migration tool, PVS provisioning from vSphere templates, ControlUp logon analysis, ScriptRunner modules and PS2EXE, among many others.</p>
   </section>
 
   <section id="experience">
@@ -727,7 +721,7 @@ footer .fine { font-size: 0.85rem; color: var(--muted); }
         <p class="label">Service record</p>
         <h2>Experience</h2>
       </div>
-      <p>Employers are described by sector. Names are available on request and on LinkedIn.</p>
+      <p>21 years in enterprise IT, across food manufacturing, healthcare, finance and software. The most recent roles are shown in full.</p>
     </div>
     <div class="timeline">
       <div class="job">
@@ -737,11 +731,14 @@ footer .fine { font-size: 0.85rem; color: var(--muted); }
           <p class="org">National food manufacturer with production and logistics sites nationwide</p>
           <span class="scale-tag">12,000 users · 1,000+ servers</span>
           <ul>
-            <li>VMware Horizon persistent and instant-clone VDI, golden images, DEM and App Volumes.</li>
-            <li>Power Platform and Copilot governance, CSP logging in Azure Log Analytics.</li>
-            <li>Exchange Online, Entra ID and Conditional Access, Palo Alto, Commvault, ServiceNow.</li>
-            <li>PowerShell and Bash automation and tools that cut time and manual process.</li>
-            <li>Troubleshooter for complex cross-platform issues; worked with teams and suppliers abroad.</li>
+            <li>Owned the VMware Horizon VDI platform: Windows 11 golden images, persistent full-clone and instant-clone pools, App Volumes and DEM, from design through to the operations run book.</li>
+            <li>Led Copilot and Power Platform governance, including Content Security Policy rollout with violation logging to Azure Log Analytics and SIEM onboarding.</li>
+            <li>Ran hybrid identity and messaging: Active Directory, Entra ID, Conditional Access, MFA and RBAC, Exchange Online and on-premises.</li>
+            <li>Delivered applications and configuration to Windows, macOS and tablet devices with Intune and complex Win32 packaging.</li>
+            <li>Administered Palo Alto security, Commvault backup and ServiceNow ITSM processes.</li>
+            <li>Built PowerShell and Bash automation and WPF tools for licence auditing, file server permission reviews and cross-vCenter file transfer, cutting time and manual process.</li>
+            <li>Troubleshooter for complex cross-platform issues, taken through to root cause.</li>
+            <li>Worked with development and technical teams locally and abroad, and with suppliers and support teams worldwide.</li>
           </ul>
         </div>
       </div>
@@ -749,14 +746,18 @@ footer .fine { font-size: 0.85rem; color: var(--muted); }
         <div class="when">2022 – Mar 2026</div>
         <div>
           <h3>Senior IT Infrastructure Specialist</h3>
-          <p class="org">Publicly traded holding group in healthcare, nursing and HR services</p>
+          <p class="org">Publicly traded holding group with tens of thousands of employees across healthcare, nursing and HR services</p>
           <span class="scale-tag">3,000 users · 300+ servers</span>
           <ul>
-            <li>OS, application and patch deployment with SCCM, BigFix and Intune.</li>
-            <li>Citrix DaaS and Hyper-V; F5 load balancing.</li>
-            <li>SAML SSO and SCIM provisioning through Entra ID Enterprise Applications; MFA and RBAC.</li>
-            <li>Exchange on-premises and Exchange Online; CrowdStrike Falcon EDR and Identity Protection.</li>
-            <li>Escalation point for critical incidents with root cause analysis.</li>
+            <li>Senior escalation point for the infrastructure team, owning critical incidents through root cause analysis and permanent fixes.</li>
+            <li>Ran OS, application and patch deployment with SCCM, BigFix and Intune across the Windows estate.</li>
+            <li>Operated Citrix DaaS and Hyper-V, and led the migration of user profiles and data to Azure Files.</li>
+            <li>Designed SAML SSO and SCIM provisioning for third-party applications through Entra ID Enterprise Applications, with MFA, RBAC and Conditional Access.</li>
+            <li>Administered Exchange on-premises and Exchange Online; part of the team that migrated mail to Microsoft 365.</li>
+            <li>Ran CrowdStrike Falcon EDR and Identity Protection for three years and led the migration from SentinelOne.</li>
+            <li>Configured and supported F5 load balancing for business applications.</li>
+            <li>Built PowerShell and Bash tooling for AD health checks, privileged account clean-up, printer management, Azure VM scheduling and reporting.</li>
+            <li>Worked with development teams, suppliers and support teams locally and abroad, tracked through ITSM ticketing.</li>
           </ul>
         </div>
       </div>
@@ -767,9 +768,13 @@ footer .fine { font-size: 0.85rem; color: var(--muted); }
           <p class="org">National healthcare provider with clinics and hospitals nationwide</p>
           <span class="scale-tag">70,000 users · 1,000+ servers</span>
           <ul>
-            <li>Always-on, large-scale environment with Citrix DaaS, NetScaler ADC and F5.</li>
-            <li>Critical incident handling and root cause analysis; SCOM monitoring.</li>
-            <li>Application integration with development teams in the country and abroad.</li>
+            <li>Ran an always-on, large-scale Citrix DaaS environment serving clinical and administrative users nationwide.</li>
+            <li>Configured and operated Citrix NetScaler ADC and F5 load balancers for application delivery.</li>
+            <li>Handled critical incidents with root cause analysis in a 24/7 healthcare setting.</li>
+            <li>Integrated business applications into the virtual desktop platform with development teams.</li>
+            <li>Monitored the estate with SCOM and automated routine operations with PowerShell and Bash.</li>
+            <li>Troubleshooter for complex issues across virtualisation, networking and application layers.</li>
+            <li>Worked with technical teams, suppliers and support teams locally and abroad.</li>
           </ul>
         </div>
       </div>
@@ -779,9 +784,13 @@ footer .fine { font-size: 0.85rem; color: var(--muted); }
           <h3>Infrastructure Engineer</h3>
           <p class="org">Publicly traded investment house and brokerage</p>
           <ul>
-            <li>Web and SQL Server platforms, NetApp and Infinidat enterprise storage, F5.</li>
-            <li>System hardening, scalability and performance tuning, SolarWinds monitoring.</li>
-            <li>Automated deployments, updates and patching with PowerShell and Bash.</li>
+            <li>Administered web and SQL Server platforms supporting trading and client-facing systems.</li>
+            <li>Managed enterprise storage on NetApp and Infinidat.</li>
+            <li>Configured and supported F5 load balancing for production applications.</li>
+            <li>Led system hardening, scalability and performance tuning in a regulated financial environment.</li>
+            <li>Automated deployments, updates and patching with PowerShell and Bash; monitored with SolarWinds.</li>
+            <li>Took part in disaster recovery planning.</li>
+            <li>Troubleshooter for complex issues; worked with suppliers and support teams locally and abroad.</li>
           </ul>
         </div>
       </div>
@@ -791,8 +800,10 @@ footer .fine { font-size: 0.85rem; color: var(--muted); }
           <h3>Infrastructure &amp; Systems Engineer</h3>
           <p class="org">R&amp;D centre of a global software vendor</p>
           <ul>
-            <li>Enterprise IT across Windows, macOS and Linux.</li>
-            <li>Alpha and beta software testing, hardware compatibility validation with product groups.</li>
+            <li>Provided enterprise IT across Windows, macOS and Linux for engineering teams.</li>
+            <li>Ran alpha and beta software testing and hardware compatibility validation with the vendor&rsquo;s product groups.</li>
+            <li>Maintained lab and server infrastructure for development teams.</li>
+            <li>Troubleshooter for complex issues; worked with product groups and support teams worldwide.</li>
           </ul>
         </div>
       </div>
@@ -805,6 +816,7 @@ footer .fine { font-size: 0.85rem; color: var(--muted); }
         <p class="label">Inventory</p>
         <h2>Skills</h2>
       </div>
+      <p>Core platforms and tools by area. Each list shows the main ones, not the full range used over 21 years.</p>
     </div>
     <div class="skills">
       <div class="skill"><h3>Identity &amp; Access</h3><p>Active Directory, Group Policy, Entra ID, Entra Connect, Conditional Access, MFA, RBAC, SAML SSO, SCIM provisioning</p></div>
@@ -903,7 +915,7 @@ footer .fine { font-size: 0.85rem; color: var(--muted); }
       var open = moreBtn.getAttribute('aria-expanded') === 'true';
       document.querySelectorAll('.note.extra').forEach(function (n) { n.hidden = open; });
       moreBtn.setAttribute('aria-expanded', open ? 'false' : 'true');
-      moreBtn.textContent = open ? 'Show all 10 field notes' : 'Show fewer field notes';
+      moreBtn.textContent = open ? 'Show all 8 field notes' : 'Show fewer field notes';
     });
   }
   document.querySelectorAll('.copy').forEach(function (btn) {
