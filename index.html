@@ -146,6 +146,18 @@ li.pa { list-style: none; margin-left: -18px; }
 .cta:hover { background: var(--signal); color: var(--paper); }
 .org b { color: var(--ink); font-weight: 600; }
 
+/* services */
+.services { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.svc { background: var(--card); border: 1px solid var(--line); border-top: 3px solid var(--navy); border-radius: 10px; padding: 24px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.svc h3 { font-size: 1.15rem; }
+.svc > p:not(.label) { color: var(--muted); font-size: 0.95rem; }
+.svc ul { margin: 4px 0 0; padding-left: 18px; display: grid; gap: 6px; font-size: 0.93rem; }
+.svc-contract { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: center; justify-content: space-between; padding: 24px; border: 1px dashed var(--line); border-radius: 10px; }
+.svc-contract > div { max-width: 70ch; min-width: 0; }
+.svc-contract h3 { font-size: 1.15rem; margin-bottom: 6px; }
+.svc-contract p { color: var(--muted); font-size: 0.95rem; }
+@media (max-width: 860px) { .services { grid-template-columns: minmax(0, 1fr); } }
+
 /* back to top */
 .to-top { position: fixed; right: calc(20px + env(safe-area-inset-right, 0px)); bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 20; display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px 10px 12px; border-radius: 999px; background: var(--navy); color: var(--paper); text-decoration: none; font: 600 0.85rem var(--f-body); box-shadow: 0 6px 18px color-mix(in srgb, var(--ink) 25%, transparent); }
 .to-top:hover { background: var(--signal); color: var(--paper); }
@@ -237,6 +249,7 @@ footer .fine { font-size: 0.85rem; color: var(--muted); }
 <div class="wrap" id="top">
   <header class="topbar">
     <nav aria-label="Sections">
+      <a href="#services">Services</a>
       <a href="#projects">Projects</a>
       <a href="#experience">Experience</a>
       <a href="#skills">Skills</a>
@@ -264,6 +277,58 @@ footer .fine { font-size: 0.85rem; color: var(--muted); }
     <div><strong>1,000+</strong><span>servers managed per environment</span></div>
     <div><strong>5</strong><span>sectors and service models: food, healthcare, finance, software and IT services</span></div>
   </div>
+
+  <section id="services">
+    <div class="sec-head">
+      <div>
+        <p class="label">How I can help</p>
+        <h2>Services</h2>
+      </div>
+      <p>Fixed-scope engagements for Microsoft environments, delivered remotely. Pricing depends on the size of the environment and is agreed after a short call.</p>
+    </div>
+    <div class="services">
+      <article class="svc">
+        <p class="label">Audit &middot; 5&ndash;10 days</p>
+        <h3>Microsoft 365 &amp; Entra ID security review</h3>
+        <p>A clear picture of who can access what, and how to close the gaps.</p>
+        <ul>
+          <li>Conditional Access and MFA coverage, gaps and conflicting policies</li>
+          <li>Privileged roles and accounts, guest access</li>
+          <li>Licence usage, including unused E5 and E3 licences</li>
+          <li>Prioritised fix list, with implementation if you want it</li>
+        </ul>
+      </article>
+      <article class="svc">
+        <p class="label">Audit &middot; 5&ndash;10 days</p>
+        <h3>Active Directory health &amp; clean-up</h3>
+        <p>A directory that replicates cleanly, carries no leftover privilege and is ready for the next migration.</p>
+        <ul>
+          <li>Health check: replication, DCs, DNS, SYSVOL, FSMO, time sync</li>
+          <li>Stale, disabled and over-privileged accounts, adminCount leftovers</li>
+          <li>Kerberos delegation, krbtgt age, GPO review</li>
+          <li>Graded report and hands-on remediation</li>
+        </ul>
+      </article>
+      <article class="svc">
+        <p class="label">Project &middot; 3&ndash;8 weeks</p>
+        <h3>Endpoint modernisation with Intune</h3>
+        <p>Every device managed from one place, with applications and settings delivered the same way every time.</p>
+        <ul>
+          <li>SCCM to Intune co-management and migration</li>
+          <li>Win32 app packaging, including complex installers</li>
+          <li>Windows, macOS and tablet configuration and compliance</li>
+          <li>Compliance tied to Conditional Access</li>
+        </ul>
+      </article>
+    </div>
+    <div class="svc-contract">
+      <div>
+        <h3>Long-term remote contract</h3>
+        <p>Senior infrastructure engineer embedded in your team for 3&ndash;12 months, on a day rate. Invoiced through my registered business; based in Portugal and able to travel within Schengen.</p>
+      </div>
+      <a class="cta" href="https://www.linkedin.com/in/dima-mogilevich" target="_blank" rel="noopener">Discuss your project on LinkedIn</a>
+    </div>
+  </section>
 
   <section id="projects">
     <div class="sec-head">
@@ -332,7 +397,7 @@ footer .fine { font-size: 0.85rem; color: var(--muted); }
             <li class="pa"><b>Problem</b> Users sat on two older Citrix environments with folder redirection on separate file servers. The move to a new Azure-hosted environment meant copying each user's Desktop, Documents and Downloads without losing data or access rights.</li>
             <li class="pa"><b>Approach</b> PowerShell works out each user's source environment from AD group membership, copies with Robocopy to Azure Files, resets ownership and NTFS rights, and runs users in parallel as background jobs.</li>
             <li>Single-user GUI version for the service desk and a multi-user batch version for waves.</li>
-            <li>Browser bookmarks and Outlook signatures collected from all session hosts before cut-over.</li>
+            <li>Browser bookmarks and Outlook signatures collected from all 14 session hosts of one environment before cut-over.</li>
             <li>Outlook OST cache moved to an Azure Files share through per-user symbolic links.</li>
             <li>Profiles converted to profile containers with the Citrix Profile Management migration tool.</li>
             <li>Clean-up: folders of users disabled in AD for 30+ days renamed and reported; size and orphan reports; logon script waits for the profile container lock file.</li>
@@ -343,7 +408,7 @@ footer .fine { font-size: 0.85rem; color: var(--muted); }
       <article class="case" data-cat="identity">
         <div class="case-top"><span class="label">Security</span><span class="status">Delivered</span></div>
         <h3>EDR migration and agent compliance</h3>
-        <p class="summary">Replaced SentinelOne with CrowdStrike Falcon across Windows endpoints and kept the other management agents healthy.</p>
+        <p class="summary">Replaced SentinelOne with CrowdStrike Falcon across an estate of 3,000 users and 300+ servers, and kept the other management agents healthy.</p>
         <p class="outcome"><b>Outcome</b> Every machine reports its own state, so gaps show up straight away instead of during an incident.</p>
         <details>
           <summary>Problem, approach and detail</summary>
@@ -360,7 +425,7 @@ footer .fine { font-size: 0.85rem; color: var(--muted); }
       <article class="case" data-cat="cloud">
         <div class="case-top"><span class="label">Endpoint management</span><span class="status">Delivered</span></div>
         <h3>Cross-platform deployment with Intune</h3>
-        <p class="summary">Applications, configuration and compliance delivered through Microsoft Intune to Windows, macOS and tablet devices.</p>
+        <p class="summary">Applications, configuration and compliance delivered through Microsoft Intune to Windows, macOS and tablet devices in a 12,000-user environment.</p>
         <p class="outcome"><b>Outcome</b> One management plane for every device type, with silent installs, enforced settings and a clear compliance picture before access is granted.</p>
         <details>
           <summary>Problem, approach and detail</summary>
@@ -567,7 +632,7 @@ footer .fine { font-size: 0.85rem; color: var(--muted); }
           <summary>Problem, approach and detail</summary>
           <ul>
             <li class="pa"><b>Problem</b> Printer changes needed an administrator logged on to the print server, and names, ports and drivers were set differently by each person.</li>
-            <li class="pa"><b>Approach</b> WinForms tool that validates the user's credentials and admin rights on the chosen print server, then offers install and change tabs that enforce one naming convention.</li>
+            <li class="pa"><b>Approach</b> WinForms tool that validates the user's credentials and admin rights on the chosen print server (three print servers in scope), then offers install and change tabs that enforce one naming convention.</li>
             <li>Install tab: new printer with naming convention, TCP/IP port and driver; add drivers by reading the model list straight from the INF file.</li>
             <li>Change tab: switch driver or port (new port created if missing), rename or delete a printer, open printer properties.</li>
             <li>Companion logon script maps printers for users from an Excel sheet of rules by subnet or user name, with a log.</li>
