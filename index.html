@@ -446,21 +446,7 @@ footer .fine { font-size: 0.85rem; color: var(--muted); }
         </details>
         <div class="chips"><span>Intune</span><span>Win32 apps</span><span>macOS</span><span>iOS / Android</span><span>Compliance policies</span><span>Conditional Access</span></div>
       </article>
-      <article class="case" data-cat="identity tools">
-        <div class="case-top"><span class="label">Identity</span><span class="status">Delivered</span></div>
-        <h3>Temporary travel access</h3>
-        <p class="summary">A small GUI that lets one user sign in from chosen countries for a set period, without touching the main location policy.</p>
-        <p class="outcome"><b>Outcome</b> Exceptions are scoped to one user, named the same way every time, and removed automatically on the end date by an Azure Automation runbook.</p>
-        <details>
-          <summary>Problem and approach</summary>
-          <ul>
-            <li class="pa"><b>Problem</b> Staff travelling abroad were blocked by location-based Conditional Access. Each exception was built by hand in the portal and often stayed after the trip.</li>
-            <li class="pa"><b>Approach</b> The admin enters the user, picks countries from a list built from Microsoft Graph and picks an end date. The script creates a country named location and a dedicated policy through the Graph API, numbered automatically in the tenant's naming scheme.</li>
-          </ul>
-        </details>
-        <div class="chips"><span>Microsoft Graph</span><span>Conditional Access</span><span>Named locations</span><span>PowerShell</span></div>
-      </article>
-      <article class="case extra" data-cat="tools identity">
+      <article class="case" data-cat="tools identity">
         <div class="case-top"><span class="label">Lab project</span><span class="status">Delivered</span></div>
         <h3>Active Directory lab as code</h3>
         <p class="summary">A complete Windows domain with a domain controller, file server and workstation, built from PowerShell scripts on a home lab.</p>
@@ -485,6 +471,20 @@ footer .fine { font-size: 0.85rem; color: var(--muted); }
           </div>
         </details>
         <div class="chips"><span>PowerShell</span><span>Active Directory</span><span>DNS / DHCP</span><span>Group Policy</span><span>NTFS</span><span>VirtualBox</span></div>
+      </article>
+      <article class="case extra" data-cat="identity tools">
+        <div class="case-top"><span class="label">Identity</span><span class="status">Delivered</span></div>
+        <h3>Temporary travel access</h3>
+        <p class="summary">A small GUI that lets one user sign in from chosen countries for a set period, without touching the main location policy.</p>
+        <p class="outcome"><b>Outcome</b> Exceptions are scoped to one user, named the same way every time, and removed automatically on the end date by an Azure Automation runbook.</p>
+        <details>
+          <summary>Problem and approach</summary>
+          <ul>
+            <li class="pa"><b>Problem</b> Staff travelling abroad were blocked by location-based Conditional Access. Each exception was built by hand in the portal and often stayed after the trip.</li>
+            <li class="pa"><b>Approach</b> The admin enters the user, picks countries from a list built from Microsoft Graph and picks an end date. The script creates a country named location and a dedicated policy through the Graph API, numbered automatically in the tenant's naming scheme.</li>
+          </ul>
+        </details>
+        <div class="chips"><span>Microsoft Graph</span><span>Conditional Access</span><span>Named locations</span><span>PowerShell</span></div>
       </article>
       <article class="case extra" data-cat="virt">
         <div class="case-top"><span class="label">VDI platform</span><span class="status">Delivered</span></div>
